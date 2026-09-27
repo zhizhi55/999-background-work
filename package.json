@@ -1,0 +1,31 @@
+{
+  "name": "999-background-work",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "npm run db:migrate && wrangler deploy",
+    "db:migrate": "wrangler d1 migrations apply BACKGROUND_DB --remote",
+    "db:local": "wrangler d1 migrations apply BACKGROUND_DB --local",
+    "db:remote": "wrangler d1 migrations apply BACKGROUND_DB --remote",
+    "vapid": "node ./scripts/generate-vapid.mjs",
+    "token": "node ./scripts/generate-token.mjs"
+  },
+  "devDependencies": {
+    "wrangler": "^4.98.0"
+  },
+  "cloudflare": {
+    "bindings": {
+      "ACCESS_TOKEN": {
+        "description": "后台访问令牌。请填写一段仅自己知道的随机长字符串，并在网页的“访问令牌”中填写同一个值。"
+      },
+      "VAPID_PUBLIC_KEY": {
+        "description": "Web Push 的 P-256 公钥（Base64URL）。必须与 VAPID_PRIVATE_KEY 配套。"
+      },
+      "VAPID_PRIVATE_KEY": {
+        "description": "Web Push 的 P-256 私钥（Base64URL），请勿泄露。"
+      }
+    }
+  }
+}
